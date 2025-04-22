@@ -4,6 +4,9 @@ This holds the files for the controller Akai LPD8 for Mixxx
 Designed to operate 2 in tandem with each other, but can operate with just one. This will allow work with the upcoming [Mixxx stems epic](https://github.com/mixxxdj/mixxx/issues/13116).
 
 
+
+[![Watch it in action!](https://img.youtube.com/vi/ao6AcOTAN0/0.jpg)](https://www.youtube.com/watch?v=ao6AcOTAN0) 
+
 ## MIDI Color Info
 **In what I believe to be a first, the full RGB lighting using MIDI sysex has been mapped and is being used in these files.**
 
