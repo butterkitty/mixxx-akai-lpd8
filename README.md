@@ -11,7 +11,7 @@ This command was found by loading up the Akai software and using it to set the l
 
 ### Details
 Preamble identifying manufacturer, model, etc, then defining the channel I believe, which is set to 1, and defining which settings we're modifying. In this case, the lighting and rotary settings. 
-The pad lighting for each pad starts with a 2 digit HEX and it's repeated twice. This is Pad 1, which is HEX 24. Then each pad takes an RRGGBB value, for both when they're not pushed and when they are pushed. This RRGGBB value maxes at 01 7F for each color and minimums at 00 00. So if I wanted to make the color red, I would enter 01 7F 00 00 00 00
+The pad lighting for each pad starts with a 2 digit HEX denoting which pad the lighting is for, and it's repeated twice. Pad 1 is HEX 24. Then each pad takes an RRGGBB value, for both when they're not pushed and when they are pushed. This RRGGBB value maxes at 01 7F for each color and minimums at 00 00. So if I wanted to make the color red, I would enter 01 7F 00 00 00 00
 
 Rotary options are declared after the final pad declaration is finished. The final pad being 2B. Again, this uses HEX 24 to denote the first rotary. I haven't explored these much at all, but when I was putting everything together I accidentally messed with these settings and at one point it was able to turn the rotary into a 1 to 10 instead of 0 to 127.
 
