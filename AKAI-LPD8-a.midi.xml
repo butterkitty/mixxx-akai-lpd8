@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MixxxMIDIPreset schemaVersion="1" mixxxVersion="2.3">
+    <info>
+        <name>AKAI LPD8-a</name>
+        <author>butterkitty</author>
+        <description>Midi Mapping for the AKAI LPD8-a</description>
+        <!--<manual>pioneer_ddj_FLX4</manual>
+        <forums>https://mixxx.discourse.group/t/pioneer-ddj-flx4</forums>-->
+    </info>
+    <controller id="AKAILPD8a">
+        <scriptfiles>
+            <file functionprefix="AKAILPD8a" filename="AKAI-LPD8-a-script.js"/>
+        </scriptfiles>
+        <controls>
+	        <control>
+                <description>Rotary 1</description>
+                <group>[Channel1_Stem1]</group>
+                <key>AKAILPD8a.StemVolume</key>
+                <status>0xB0</status>
+                <midino>0x28</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>
+            <control>
+                <description>Rotary 2</description>
+                <group>[Channel1_Stem2]</group>
+                <key>AKAILPD8a.StemVolume</key>
+                <status>0xB0</status>
+                <midino>0x29</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>
+            <control>
+                <description>Rotary 3</description>
+                <group>[Channel1_Stem3]</group>
+                <key>AKAILPD8a.StemVolume</key>
+                <status>0xB0</status>
+                <midino>0x2A</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>
+            <control>
+                <description>Rotary 4</description>
+                <group>[Channel1_Stem4]</group>
+                <key>AKAILPD8a.StemVolume</key>
+                <status>0xB0</status>
+                <midino>0x2B</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>
+            <control>
+                <description>Rotary 5</description>
+                <group>[QuickEffectRack1_[Channel1_Stem1]]</group>
+                <key>AKAILPD8a.StemFXAmount</key>
+                <status>0xB0</status>
+                <midino>0x24</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>
+            <control>
+                <description>Rotary 6</description>
+                <group>[QuickEffectRack1_[Channel1_Stem2]]</group>
+                <key>AKAILPD8a.StemFXAmount</key>
+                <status>0xB0</status>
+                <midino>0x25</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>
+            <control>
+                <description>Rotary 7</description>
+                <group>[QuickEffectRack1_[Channel1_Stem3]]</group>
+                <key>AKAILPD8a.StemFXAmount</key>
+                <status>0xB0</status>
+                <midino>0x26</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>
+            <control>
+                <description>Rotary 8</description>
+                <group>[QuickEffectRack1_[Channel1_Stem4]]</group>
+                <key>AKAILPD8a.StemFXAmount</key>
+                <status>0xB0</status>
+                <midino>0x27</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>
+
+            <!-- STEMS TRACK 1 -->
+            <control>
+                <description>Pad 1</description>
+                <group>[Channel1_Stem1]</group>
+                <key>mute</key>
+                <status>0x90</status>
+                <midino>0x24</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <description>Pad 3</description>
+                <group>[Channel1_Stem2]</group>
+                <key>mute</key>
+                <status>0x90</status>
+                <midino>0x25</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <description>Pad 5</description>
+                <group>[Channel1_Stem3]</group>
+                <key>mute</key>
+                <status>0x90</status>
+                <midino>0x26</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <description>Pad 7</description>
+                <group>[Channel1_Stem4]</group>
+                <key>mute</key>
+                <status>0x90</status>
+                <midino>0x27</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <description>Pad 2</description>
+                <group>[QuickEffectRack1_[Channel1_Stem1]]</group>
+                <key>enabled</key>
+                <status>0x90</status>
+                <midino>0x28</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <description>Pad 4</description>
+                <group>[QuickEffectRack1_[Channel1_Stem2]]</group>
+                <key>enabled</key>
+                <status>0x90</status>
+                <midino>0x29</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <description>Pad 6</description>
+                <group>[QuickEffectRack1_[Channel1_Stem3]]</group>
+                <key>enabled</key>
+                <status>0x90</status>
+                <midino>0x2A</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <description>Pad 8</description>
+                <group>[QuickEffectRack1_[Channel1_Stem4]]</group>
+                <key>enabled</key>
+                <status>0x90</status>
+                <midino>0x2b</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+
+<!--            <control>
+                <description>Shift 1</description>
+                <group>0</group>
+                <key>AKAILPD8a.Shift</key>
+                <status>0xB0</status>
+                <midino>0x68</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>
+            <control>
+                <description>Shift 2</description>
+                <group>1</group>
+                <key>AKAILPD8a.Shift</key>
+                <status>0xB0</status>
+                <midino>0x69</midino>
+                <options>
+                  <Script-Binding/>
+                </options>
+            </control>-->            
+        </controls>
+    </controller>
+</MixxxMIDIPreset>
