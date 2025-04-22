@@ -681,16 +681,10 @@ AKAILPD8b.stemFXOff = function() {
 };
 
 AKAILPD8b.StemVolume = function(_channel, control, value, _status, group) { 
-    if (AKAILPD8b.shiftButtonDown[0]) {
-        group = group.replace("Channel1", "Channel2");
-    }
     engine.setParameter(group, "volume", value / 127)
 };
 
 AKAILPD8b.StemFXAmount = function(_channel, _control, value, _status, group) {
-    if (AKAILPD8b.shiftButtonDown[0]) {
-        group = group.replace("Channel1", "Channel2");
-    }
     engine.setParameter(group, "super1", value / 127)
 }
 
