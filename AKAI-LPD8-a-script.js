@@ -606,7 +606,7 @@ AKAILPD8a.getTrackColor = function () {
 }
 
 //
-// Init 
+// INIT 
 //
 
 AKAILPD8a.init = function() {
@@ -696,7 +696,7 @@ AKAILPD8a.StemFXAmount = function(_channel, _control, value, _status, group) {
 }
 
 //
-// Shutdown
+// SHUTDOWN
 //
 
 AKAILPD8a.shutdown = function() {
