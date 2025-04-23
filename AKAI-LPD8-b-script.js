@@ -601,7 +601,7 @@ AKAILPD8b.getTrackColor = function () {
 }
 
 //
-// Init 
+// INIT 
 //
 
 AKAILPD8b.init = function() {
@@ -615,6 +615,8 @@ AKAILPD8b.init = function() {
 
     engine.makeConnection("[Channel" + deckNum + "]", "track_color", AKAILPD8b.trackLoaded);
     engine.makeConnection("[Channel" + deckNum + "]", "play", AKAILPD8b.trackStarted);
+    if (engine.getValue("[Channel" + deckNum + "]", "track_color")) { AKAILPD8b.trackLoaded(); }
+    if (engine.getValue("[Channel" + deckNum + "]", "play")) { AKAILPD8b.trackStarted(); }
 };
 
 AKAILPD8b.setLightsTrackColor = function() {
@@ -689,7 +691,7 @@ AKAILPD8b.StemFXAmount = function(_channel, _control, value, _status, group) {
 }
 
 //
-// Shutdown
+// SHUTDOWN
 //
 
 AKAILPD8b.shutdown = function() {

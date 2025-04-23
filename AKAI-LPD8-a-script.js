@@ -620,6 +620,8 @@ AKAILPD8a.init = function() {
 
     engine.makeConnection("[Channel" + deckNum + "]", "track_color", AKAILPD8a.trackLoaded);
     engine.makeConnection("[Channel" + deckNum + "]", "play", AKAILPD8a.trackStarted);
+    if (engine.getValue("[Channel" + deckNum + "]", "track_color")) { AKAILPD8a.trackLoaded(); }
+    if (engine.getValue("[Channel" + deckNum + "]", "play")) { AKAILPD8a.trackStarted(); }
 };
 
 AKAILPD8a.setLightsTrackColor = function() {
