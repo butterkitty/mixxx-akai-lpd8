@@ -12,6 +12,7 @@
             <file functionprefix="AKAILPD8a" filename="AKAI-LPD8-a-script.js"/>
         </scriptfiles>
         <controls>
+            <!-- ROTARY CONTROLS -->
 	        <control>
                 <description>Rotary 1</description>
                 <group>[Channel1_Stem1]</group>
@@ -92,8 +93,8 @@
                   <Script-Binding/>
                 </options>
             </control>
-
             <!-- STEMS TRACK 1 -->
+            <!-- MUTE STEMS-->
             <control>
                 <description>Pad 1</description>
                 <group>[Channel1_Stem1]</group>
@@ -134,6 +135,7 @@
                     <normal/>
                 </options>
             </control>
+            <!-- ENABLED EFFECTS -->
             <control>
                 <description>Pad 2</description>
                 <group>[QuickEffectRack1_[Channel1_Stem1]]</group>
@@ -174,27 +176,16 @@
                     <normal/>
                 </options>
             </control>
-
-<!--            <control>
-                <description>Shift 1</description>
-                <group>0</group>
-                <key>AKAILPD8a.Shift</key>
-                <status>0xB0</status>
-                <midino>0x68</midino>
+            <!-- CHOOSE STEM FX -->
+            <control>
+                <description>Pads 1-8 PROG Stem FX Change</description>
+                <group>[QuickEffectRack1_[Channel1_Stem1]]</group>
+                <key>AKAILPD8a.changeStemFXChain</key>
+                <status>0xC0</status>
                 <options>
-                  <Script-Binding/>
+                    <Script-Binding/>
                 </options>
             </control>
-            <control>
-                <description>Shift 2</description>
-                <group>1</group>
-                <key>AKAILPD8a.Shift</key>
-                <status>0xB0</status>
-                <midino>0x69</midino>
-                <options>
-                  <Script-Binding/>
-                </options>
-            </control>-->            
         </controls>
     </controller>
 </MixxxMIDIPreset>

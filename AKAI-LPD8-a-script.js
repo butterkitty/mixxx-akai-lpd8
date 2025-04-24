@@ -1,6 +1,6 @@
-// AKAILPD8b-script.js
+// AKAILPD8a-script.js
 
-var AKAILPD8b = {};
+var AKAILPD8a = {};
 
 
 // The SysEx message to send to the controller to force the midi controller
@@ -15,11 +15,11 @@ var ControllerStatusSysex = [0xF0, 0x00, 0x40, 0x05, 0x00, 0x00, 0x04, 0x05, 0x0
 var lightProgram = [0xF0, 0x47, 0x7F, 0x4C, 0x01, 0x01, 0x29, 0x00, 0x00, 0x02, 0x01, 0x00, 0x24, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x25, 0x25, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x26, 0x26, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x27, 0x27, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x28, 0x28, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x29, 0x29, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2A, 0x2A, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2B, 0x2B, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x7F, 0x25, 0x00, 0x00, 0x7F, 0x26, 0x00, 0x00, 0x7F, 0x27, 0x00, 0x00, 0x7F, 0x28, 0x00, 0x00, 0x7F, 0x29, 0x00, 0x00, 0x7F, 0x2A, 0x00, 0x00, 0x7F, 0x2B, 0x00, 0x00, 0x7F, 0xF7]
 
 // Specify which deck this is for in the software
-var deckNum = "2";
+var deckNum = "1";
 
 
 // Store timer IDs
-AKAILPD8b.timers = {};
+AKAILPD8a.timers = {};
 
 var currentLightColors = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];//var currentLightColors = [pad 1, pad 1 pushed, ..., pad 8, pad 8 pushed] //array of arrays. Each array in the main array is structured [0x01, 0x7F, 0x01, 0x7F, 0x01, 0x7F]. This gives white. They are RRGGBB. Maximum value is 0x01, 0x7F one less is 0x00, 0x7F and minimum is 0x00, 0x00 which would make it black and turn the lights off
 var lightsOff = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //Which lights are turned off
@@ -29,7 +29,7 @@ var lightsOff = [false, false, false, false, false, false, false, false, false, 
 // CONSTANTS
 //
 
-AKAILPD8b.colors = {
+AKAILPD8a.colors = {
     red: [0x01, 0x7F, 0x00, 0x00, 0x00, 0x00],
     green: [0x00, 0x00, 0x01, 0x75, 0x00, 0x00],
     blue: [0x00, 0x00, 0x00, 0x00, 0x01, 0x7F],
@@ -53,38 +53,38 @@ AKAILPD8b.colors = {
     darkgrey: [0x00, 0x5, 0x00, 0x5, 0x00, 0x5],
 };
 
-AKAILPD8b.defaultLights = {
+AKAILPD8a.defaultLights = {
     pad1: {
-        Static: AKAILPD8b.colors.darkgrey,
-        Pushed: AKAILPD8b.colors.white,
+        Static: AKAILPD8a.colors.darkgrey,
+        Pushed: AKAILPD8a.colors.white,
     },
     pad2: {
-        Static: AKAILPD8b.colors.darkgrey,
-        Pushed: AKAILPD8b.colors.white,
+        Static: AKAILPD8a.colors.darkgrey,
+        Pushed: AKAILPD8a.colors.white,
     },
     pad3: {
-        Static: AKAILPD8b.colors.darkgrey,
-        Pushed: AKAILPD8b.colors.white,
+        Static: AKAILPD8a.colors.darkgrey,
+        Pushed: AKAILPD8a.colors.white,
     },
     pad4: {
-        Static: AKAILPD8b.colors.darkgrey,
-        Pushed: AKAILPD8b.colors.white,
+        Static: AKAILPD8a.colors.darkgrey,
+        Pushed: AKAILPD8a.colors.white,
     },
     pad5: {
-        Static: AKAILPD8b.colors.darkgrey,
-        Pushed: AKAILPD8b.colors.white,
+        Static: AKAILPD8a.colors.darkgrey,
+        Pushed: AKAILPD8a.colors.white,
     },
     pad6: {
-        Static: AKAILPD8b.colors.darkgrey,
-        Pushed: AKAILPD8b.colors.white,
+        Static: AKAILPD8a.colors.darkgrey,
+        Pushed: AKAILPD8a.colors.white,
     },
     pad7: {
-        Static: AKAILPD8b.colors.darkgrey,
-        Pushed: AKAILPD8b.colors.white,
+        Static: AKAILPD8a.colors.darkgrey,
+        Pushed: AKAILPD8a.colors.white,
     },
     pad8: {
-        Static: AKAILPD8b.colors.darkgrey,
-        Pushed: AKAILPD8b.colors.white,
+        Static: AKAILPD8a.colors.darkgrey,
+        Pushed: AKAILPD8a.colors.white,
     },    
 };
 //
@@ -97,26 +97,26 @@ AKAILPD8b.defaultLights = {
 //
 
 //Configurable
-// Calculation of time between steps: (60000 / bpm * AKAILPD8b.beatsPerCycle) / AKAILPD8b.totalDimmingSteps
+// Calculation of time between steps: (60000 / bpm * AKAILPD8a.beatsPerCycle) / AKAILPD8a.totalDimmingSteps
 // For a 125 BPM song, with totalDimmingSteps = 10 and beatsPerCycle = 1 this would equal 96 ms between steps.
 // Answer should be no lower than around 50ms
-AKAILPD8b.totalDimmingSteps = 20;  // Number of steps for smooth dimming
-AKAILPD8b.beatsPerCycle = 4; //How many beats to cycle the dimming over. This is a full cycle
-AKAILPD8b.dimAmount = 0.80; //Percent to dim by. 0.25 would dim it by 25%
+AKAILPD8a.totalDimmingSteps = 20;  // Number of steps for smooth dimming
+AKAILPD8a.beatsPerCycle = 4; //How many beats to cycle the dimming over. This is a full cycle
+AKAILPD8a.dimAmount = 0.80; //Percent to dim by. 0.25 would dim it by 25%
 
 //No touchie
-AKAILPD8b.dimmingStep = 0;  // Current dimming step
-AKAILPD8b.dimmingStartBeat = 0;  // Beat number when dimming starts
-AKAILPD8b.dimmingInProgress = false;  // Track if dimming is in progress
-AKAILPD8b.dimmingState = false;
-AKAILPD8b.lastBeatPosition = 0; // Track the last beat position
-AKAILPD8b.currentBPM = 0; // Store the current BPM
+AKAILPD8a.dimmingStep = 0;  // Current dimming step
+AKAILPD8a.dimmingStartBeat = 0;  // Beat number when dimming starts
+AKAILPD8a.dimmingInProgress = false;  // Track if dimming is in progress
+AKAILPD8a.dimmingState = false;
+AKAILPD8a.lastBeatPosition = 0; // Track the last beat position
+AKAILPD8a.currentBPM = 0; // Store the current BPM
 
-AKAILPD8b.startSmoothDimming = function() {
+AKAILPD8a.startSmoothDimming = function() {
     // Get BPM from Mixxx
-    AKAILPD8b.currentBPM = engine.getValue("[Channel" + deckNum + "]", "bpm");
+    AKAILPD8a.currentBPM = engine.getValue("[Channel" + deckNum + "]", "bpm");
 
-    if (AKAILPD8b.currentBPM <= 0) {
+    if (AKAILPD8a.currentBPM <= 0) {
         console.warn("BPM is zero or not valid, cannot start dimming.");
         return;
     }
@@ -129,99 +129,99 @@ AKAILPD8b.startSmoothDimming = function() {
     }
 
     // Calculate the time interval for each dimming step based on BPM
-    const msPerBeat = 60000 / AKAILPD8b.currentBPM;  // Milliseconds per beat
-    const totalDuration = msPerBeat * AKAILPD8b.beatsPerCycle;  // Total duration (for full dimming cycle)
-    const msPerStep = totalDuration / AKAILPD8b.totalDimmingSteps;  // Time for each step to complete for full cycle
+    const msPerBeat = 60000 / AKAILPD8a.currentBPM;  // Milliseconds per beat
+    const totalDuration = msPerBeat * AKAILPD8a.beatsPerCycle;  // Total duration (for full dimming cycle)
+    const msPerStep = totalDuration / AKAILPD8a.totalDimmingSteps;  // Time for each step to complete for full cycle
 
     // Reset dimming step
-    AKAILPD8b.dimmingStep = 0;
-    AKAILPD8b.dimmingDirection = 'dim';  // Start with dimming
-    AKAILPD8b.dimmingInProgress = true;  // Mark that dimming is in progress
-    AKAILPD8b.lastBeatPosition = engine.getValue("[Channel" + deckNum + "]", "playposition");
+    AKAILPD8a.dimmingStep = 0;
+    AKAILPD8a.dimmingDirection = 'dim';  // Start with dimming
+    AKAILPD8a.dimmingInProgress = true;  // Mark that dimming is in progress
+    AKAILPD8a.lastBeatPosition = engine.getValue("[Channel" + deckNum + "]", "playposition");
 
     // Store the current color brightness (starting at full brightness)
-    AKAILPD8b.originalColors = currentLightColors;
+    AKAILPD8a.originalColors = currentLightColors;
 
     // Begin the timer to update dimming at intervals
-    AKAILPD8b.timers["smoothDimming"] = engine.beginTimer(msPerStep, AKAILPD8b.updateSmoothDimming);
+    AKAILPD8a.timers["smoothDimming"] = engine.beginTimer(msPerStep, AKAILPD8a.updateSmoothDimming);
 };
 
 // This function handles each dimming step
-AKAILPD8b.updateSmoothDimming = function() {
+AKAILPD8a.updateSmoothDimming = function() {
     if (!engine.getValue("[Channel" + deckNum + "]", "play")) {
-        AKAILPD8b.stopSmoothDimming();
+        AKAILPD8a.stopSmoothDimming();
         return;
     }
 
     // Check if BPM has changed
     const newBPM = engine.getValue("[Channel" + deckNum + "]", "bpm");
-    if (newBPM !== AKAILPD8b.currentBPM) {
+    if (newBPM !== AKAILPD8a.currentBPM) {
         
         // Calculate new timing based on new BPM
         const msPerBeat = 60000 / newBPM;
-        const totalDuration = msPerBeat * AKAILPD8b.beatsPerCycle;
-        const newMsPerStep = totalDuration / AKAILPD8b.totalDimmingSteps;
+        const totalDuration = msPerBeat * AKAILPD8a.beatsPerCycle;
+        const newMsPerStep = totalDuration / AKAILPD8a.totalDimmingSteps;
         
         // Stop current timer
-        engine.stopTimer(AKAILPD8b.timers["smoothDimming"]);
+        engine.stopTimer(AKAILPD8a.timers["smoothDimming"]);
         
         // Start new timer with adjusted timing
-        AKAILPD8b.timers["smoothDimming"] = engine.beginTimer(newMsPerStep, AKAILPD8b.updateSmoothDimming);
+        AKAILPD8a.timers["smoothDimming"] = engine.beginTimer(newMsPerStep, AKAILPD8a.updateSmoothDimming);
         
-        AKAILPD8b.currentBPM = newBPM;
+        AKAILPD8a.currentBPM = newBPM;
     }
 
     const currentPosition = engine.getValue("[Channel" + deckNum + "]", "playposition");
     
     // Calculate beats passed since last update
-    const beatsPassed = (currentPosition - AKAILPD8b.lastBeatPosition) * AKAILPD8b.currentBPM;
-    AKAILPD8b.lastBeatPosition = currentPosition;
+    const beatsPassed = (currentPosition - AKAILPD8a.lastBeatPosition) * AKAILPD8a.currentBPM;
+    AKAILPD8a.lastBeatPosition = currentPosition;
 
     // Calculate the step factor (a value between 0 and 1)
-    const stepFactor = AKAILPD8b.dimmingStep / (AKAILPD8b.totalDimmingSteps / 2);
+    const stepFactor = AKAILPD8a.dimmingStep / (AKAILPD8a.totalDimmingSteps / 2);
 
     // Determine the target brightness based on the current phase (dimming or brightening)
     let targetBrightness;
-    if (AKAILPD8b.dimmingDirection === 'dim') {
-        targetBrightness = 1 - stepFactor * AKAILPD8b.dimAmount;
+    if (AKAILPD8a.dimmingDirection === 'dim') {
+        targetBrightness = 1 - stepFactor * AKAILPD8a.dimAmount;
     } else {
-        targetBrightness = (1 - AKAILPD8b.dimAmount) + stepFactor * AKAILPD8b.dimAmount; // Brighten back to full brightness
+        targetBrightness = (1 - AKAILPD8a.dimAmount) + stepFactor * AKAILPD8a.dimAmount; // Brighten back to full brightness
     }
 
     // Calculate the new dimmed color based on the target brightness
-    const updatedColors = AKAILPD8b.originalColors.map(function(color) {
+    const updatedColors = AKAILPD8a.originalColors.map(function(color) {
         return color.map(function(channelValue) {
             return Math.floor(channelValue * targetBrightness);
         });
     });
 
     // Update the lights
-    AKAILPD8b.setLights(updatedColors, true);
+    AKAILPD8a.setLights(updatedColors, true);
 
     // Increment the step
-    AKAILPD8b.dimmingStep++;
+    AKAILPD8a.dimmingStep++;
 
     // If we've completed one phase (dimming or brightening), switch direction
-    if (AKAILPD8b.dimmingStep >= AKAILPD8b.totalDimmingSteps / 2) {
-        AKAILPD8b.dimmingStep = 0; // Reset the step for the next phase
-        AKAILPD8b.dimmingDirection = (AKAILPD8b.dimmingDirection === 'dim') ? 'brighten' : 'dim'; // Switch direction
+    if (AKAILPD8a.dimmingStep >= AKAILPD8a.totalDimmingSteps / 2) {
+        AKAILPD8a.dimmingStep = 0; // Reset the step for the next phase
+        AKAILPD8a.dimmingDirection = (AKAILPD8a.dimmingDirection === 'dim') ? 'brighten' : 'dim'; // Switch direction
     }
 };
 
 // Function to stop strobing when playback is paused and return to full brightness
-AKAILPD8b.stopSmoothDimming = function() {
-    engine.stopTimer(AKAILPD8b.timers["smoothDimming"]);
-    AKAILPD8b.dimmingStep = 0;
-    AKAILPD8b.dimmingInProgress = false;  // Reset strobe state
-    AKAILPD8b.dimmingDirection = 'dim';
-    AKAILPD8b.setLights(currentLightColors);
+AKAILPD8a.stopSmoothDimming = function() {
+    engine.stopTimer(AKAILPD8a.timers["smoothDimming"]);
+    AKAILPD8a.dimmingStep = 0;
+    AKAILPD8a.dimmingInProgress = false;  // Reset strobe state
+    AKAILPD8a.dimmingDirection = 'dim';
+    AKAILPD8a.setLights(currentLightColors);
 };  
 
 //RAINBOW ROTATING THROUGH ALL PADS SAME COLOR (Not using but it's totally usable)
-/*AKAILPD8b.totalDimmingSteps = 30;  // Number of steps for smooth color transition (you can adjust this value)
-AKAILPD8b.beatsPerCycle = 2; // Number of beats to cycle the rainbow over (full cycle)
+/*AKAILPD8a.totalDimmingSteps = 30;  // Number of steps for smooth color transition (you can adjust this value)
+AKAILPD8a.beatsPerCycle = 2; // Number of beats to cycle the rainbow over (full cycle)
 
-AKAILPD8b.startRainbowCycle = function() {
+AKAILPD8a.startRainbowCycle = function() {
     // Get BPM from Mixxx
     const bpm = engine.getValue("[Channel" + deckNum + "]", "bpm");
 
@@ -246,37 +246,37 @@ AKAILPD8b.startRainbowCycle = function() {
 
     // Calculate the time interval for each color change based on BPM
     const msPerBeat = 60000 / bpm;  // Milliseconds per beat
-    const totalDuration = msPerBeat * AKAILPD8b.beatsPerCycle;  // Total duration (for full rainbow cycle)
-    const msPerStep = totalDuration / AKAILPD8b.totalDimmingSteps;  // Time for each step to complete for full cycle
+    const totalDuration = msPerBeat * AKAILPD8a.beatsPerCycle;  // Total duration (for full rainbow cycle)
+    const msPerStep = totalDuration / AKAILPD8a.totalDimmingSteps;  // Time for each step to complete for full cycle
 
     // Reset the dimming step
-    AKAILPD8b.dimmingStep = 0;
-    AKAILPD8b.dimmingDirection = 'forward';  // Start with forward cycling
-    AKAILPD8b.dimmingInProgress = true;  // Mark that the rainbow effect is in progress
+    AKAILPD8a.dimmingStep = 0;
+    AKAILPD8a.dimmingDirection = 'forward';  // Start with forward cycling
+    AKAILPD8a.dimmingInProgress = true;  // Mark that the rainbow effect is in progress
 
     // Begin the timer to update rainbow colors at intervals
-    AKAILPD8b.timers["rainbowCycle"] = engine.beginTimer(msPerStep, AKAILPD8b.updateRainbowCycle);
+    AKAILPD8a.timers["rainbowCycle"] = engine.beginTimer(msPerStep, AKAILPD8a.updateRainbowCycle);
 };
 
 // This function handles each rainbow color change step
-AKAILPD8b.updateRainbowCycle = function() {
+AKAILPD8a.updateRainbowCycle = function() {
     if (!engine.getValue("[Channel" + deckNum + "]", "play")) {
-        AKAILPD8b.stopRainbowCycle();
+        AKAILPD8a.stopRainbowCycle();
         return;
     }
 
     // Calculate the step factor (a value between 0 and 1)
-    const stepFactor = AKAILPD8b.dimmingStep / AKAILPD8b.totalDimmingSteps;
+    const stepFactor = AKAILPD8a.dimmingStep / AKAILPD8a.totalDimmingSteps;
 
     // Define the rainbow colors (only 7 colors)
     const rainbowColors = [
-        AKAILPD8b.colors.red,        // Red
-        AKAILPD8b.colors.orange,     // Orange
-        AKAILPD8b.colors.yellow,     // Yellow
-        AKAILPD8b.colors.green,      // Green
-        AKAILPD8b.colors.lightblue,  // Light Blue (closest to Indigo)
-        AKAILPD8b.colors.blue,       // Blue
-        AKAILPD8b.colors.purple      // Purple (closest to Violet)
+        AKAILPD8a.colors.red,        // Red
+        AKAILPD8a.colors.orange,     // Orange
+        AKAILPD8a.colors.yellow,     // Yellow
+        AKAILPD8a.colors.green,      // Green
+        AKAILPD8a.colors.lightblue,  // Light Blue (closest to Indigo)
+        AKAILPD8a.colors.blue,       // Blue
+        AKAILPD8a.colors.purple      // Purple (closest to Violet)
     ];
 
     // Determine the color indices for interpolation
@@ -287,76 +287,76 @@ AKAILPD8b.updateRainbowCycle = function() {
 
     // Interpolate between the two colors (handle wrap-around between the last and first color)
     const factor = colorStep - lowerIndex;  // Factor for interpolation
-    const targetColor = AKAILPD8b.interpolateColor(rainbowColors[lowerIndex], rainbowColors[upperIndex], factor);
+    const targetColor = AKAILPD8a.interpolateColor(rainbowColors[lowerIndex], rainbowColors[upperIndex], factor);
 
     // Update the lights to the interpolated color
     const updatedColors = new Array(16).fill(targetColor);
 
     // Update the lights
-    AKAILPD8b.setLights(updatedColors, true);
+    AKAILPD8a.setLights(updatedColors, true);
 
     // Increment the step
-    AKAILPD8b.dimmingStep++;
+    AKAILPD8a.dimmingStep++;
 
     // If we've completed the cycle, reset the step for the next cycle
-    if (AKAILPD8b.dimmingStep >= AKAILPD8b.totalDimmingSteps) {
-        AKAILPD8b.dimmingStep = 0;  // Reset the step for the next cycle
+    if (AKAILPD8a.dimmingStep >= AKAILPD8a.totalDimmingSteps) {
+        AKAILPD8a.dimmingStep = 0;  // Reset the step for the next cycle
     }
 
     // If 4 beats have passed, stop the rainbow cycle
     const currentPosition = engine.getValue("[Channel" + deckNum + "]", "playposition");
-    const beatProgress = (currentPosition * bpm) % AKAILPD8b.dimmingBeats;  // Track the song's progress in beats
+    const beatProgress = (currentPosition * bpm) % AKAILPD8a.dimmingBeats;  // Track the song's progress in beats
 
-    if (beatProgress === 0 && AKAILPD8b.dimmingStep === 0) {
-        AKAILPD8b.dimmingInProgress = false;  // Stop the rainbow cycle
-        engine.cancelTimer(AKAILPD8b.updateRainbowCycle);  // Stop the timer
+    if (beatProgress === 0 && AKAILPD8a.dimmingStep === 0) {
+        AKAILPD8a.dimmingInProgress = false;  // Stop the rainbow cycle
+        engine.cancelTimer(AKAILPD8a.updateRainbowCycle);  // Stop the timer
     }
 };
 
 // Function to stop the rainbow effect when playback is paused and reset the lights
-AKAILPD8b.stopRainbowCycle = function() {
-    engine.stopTimer(AKAILPD8b.timers["rainbowCycle"]);
-    AKAILPD8b.dimmingStep = 0;
-    AKAILPD8b.dimmingInProgress = false;  // Reset rainbow cycle state
-    AKAILPD8b.setLights(currentLightColors, true);  // Reset to white color
+AKAILPD8a.stopRainbowCycle = function() {
+    engine.stopTimer(AKAILPD8a.timers["rainbowCycle"]);
+    AKAILPD8a.dimmingStep = 0;
+    AKAILPD8a.dimmingInProgress = false;  // Reset rainbow cycle state
+    AKAILPD8a.setLights(currentLightColors, true);  // Reset to white color
 };*/
 
 //RAINBOW SCANNING THROUGH, ONE PAD LIT AT A TIME
-AKAILPD8b.totalDimmingSteps = 31;  // Number of steps for smooth color transition (you can adjust this value)
-AKAILPD8b.scanDuration = 2000; //2000 is 2 seconds
+AKAILPD8a.totalDimmingSteps = 31;  // Number of steps for smooth color transition (you can adjust this value)
+AKAILPD8a.scanDuration = 2000; //2000 is 2 seconds
 
-AKAILPD8b.startRainbowScan = function() {
-    engine.beginTimer(AKAILPD8b.scanDuration, AKAILPD8b.stopRainbowScan,true);
+AKAILPD8a.startRainbowScan = function() {
+    engine.beginTimer(AKAILPD8a.scanDuration, AKAILPD8a.stopRainbowScan,true);
     // Get BPM from Mixxx
     const bpm = engine.getValue("[Channel" + deckNum + "]", "bpm");
 
     // Calculate the time interval for each color change based on BPM
     const totalDuration = 1000;  // Total duration (for full rainbow cycle)
-    const msPerStep = totalDuration / AKAILPD8b.totalDimmingSteps;  // Time for each step to complete for full cycle
+    const msPerStep = totalDuration / AKAILPD8a.totalDimmingSteps;  // Time for each step to complete for full cycle
 
     // Reset the dimming step
-    AKAILPD8b.dimmingStep = 0;
-    AKAILPD8b.dimmingDirection = 'forward';  // Start with forward cycling
-    AKAILPD8b.dimmingInProgress = true;  // Mark that the rainbow effect is in progress
+    AKAILPD8a.dimmingStep = 0;
+    AKAILPD8a.dimmingDirection = 'forward';  // Start with forward cycling
+    AKAILPD8a.dimmingInProgress = true;  // Mark that the rainbow effect is in progress
 
     // Begin the timer to update rainbow colors at intervals
-    AKAILPD8b.timers["rainbowScan"] = engine.beginTimer(msPerStep, AKAILPD8b.updateRainbowScan);
+    AKAILPD8a.timers["rainbowScan"] = engine.beginTimer(msPerStep, AKAILPD8a.updateRainbowScan);
 };
 
 // This function handles each rainbow color change step
-AKAILPD8b.updateRainbowScan = function() {
+AKAILPD8a.updateRainbowScan = function() {
     // Calculate the step factor (a value between 0 and 1)
-    const stepFactor = AKAILPD8b.dimmingStep / AKAILPD8b.totalDimmingSteps;
+    const stepFactor = AKAILPD8a.dimmingStep / AKAILPD8a.totalDimmingSteps;
 
     // Define the rainbow colors (only 7 colors)
     const rainbowColors = [
-        AKAILPD8b.colors.red,        // Red
-        AKAILPD8b.colors.orange,     // Orange
-        AKAILPD8b.colors.yellow,     // Yellow
-        AKAILPD8b.colors.green,      // Green
-        AKAILPD8b.colors.lightblue,  // Light Blue (closest to Indigo)
-        AKAILPD8b.colors.blue,       // Blue
-        AKAILPD8b.colors.purple      // Purple (closest to Violet)
+        AKAILPD8a.colors.red,        // Red
+        AKAILPD8a.colors.orange,     // Orange
+        AKAILPD8a.colors.yellow,     // Yellow
+        AKAILPD8a.colors.green,      // Green
+        AKAILPD8a.colors.lightblue,  // Light Blue (closest to Indigo)
+        AKAILPD8a.colors.blue,       // Blue
+        AKAILPD8a.colors.purple      // Purple (closest to Violet)
     ];
 
     // Determine the color indices for interpolation
@@ -367,57 +367,57 @@ AKAILPD8b.updateRainbowScan = function() {
 
     // Interpolate between the two colors (handle wrap-around between the last and first color)
     const factor = colorStep - lowerIndex;  // Factor for interpolation
-    const targetColor = AKAILPD8b.interpolateColor(rainbowColors[lowerIndex], rainbowColors[upperIndex], factor);
+    const targetColor = AKAILPD8a.interpolateColor(rainbowColors[lowerIndex], rainbowColors[upperIndex], factor);
 
     // Now, we need to "scan" through the pads, so we create a new array where each pad gets its own color
-    const updatedColors = new Array(16).fill(AKAILPD8b.colors.darkgrey);  // Start with all pads black
+    const updatedColors = new Array(16).fill(AKAILPD8a.colors.darkgrey);  // Start with all pads black
     const numPads = updatedColors.length;
 
     // Calculate which pad should get the target color based on dimming step
-    const padIndex = AKAILPD8b.dimmingStep % numPads;  // Use modulo to loop through pads
+    const padIndex = AKAILPD8a.dimmingStep % numPads;  // Use modulo to loop through pads
     updatedColors[padIndex] = targetColor;  // Set the target color on the current pad
 
     // Update the lights with the new colors
-    AKAILPD8b.setLights(updatedColors, true);
+    AKAILPD8a.setLights(updatedColors, true);
 
     // Increment the step
-    AKAILPD8b.dimmingStep++;
+    AKAILPD8a.dimmingStep++;
 
     // If we've completed the cycle, reset the step for the next cycle
-    if (AKAILPD8b.dimmingStep >= AKAILPD8b.totalDimmingSteps) {
-        AKAILPD8b.dimmingStep = 0;  // Reset the step for the next cycle
+    if (AKAILPD8a.dimmingStep >= AKAILPD8a.totalDimmingSteps) {
+        AKAILPD8a.dimmingStep = 0;  // Reset the step for the next cycle
     }
 
     // If 4 beats have passed, stop the rainbow cycle
     const currentPosition = engine.getValue("[Channel" + deckNum + "]", "playposition");
-    const beatProgress = (currentPosition * bpm) % AKAILPD8b.dimmingBeats;  // Track the song's progress in beats
+    const beatProgress = (currentPosition * bpm) % AKAILPD8a.dimmingBeats;  // Track the song's progress in beats
 
-    if (beatProgress === 0 && AKAILPD8b.dimmingStep === 0) {
-        AKAILPD8b.dimmingInProgress = false;  // Stop the rainbow cycle
-        engine.cancelTimer(AKAILPD8b.updateRainbowCycle);  // Stop the timer
+    if (beatProgress === 0 && AKAILPD8a.dimmingStep === 0) {
+        AKAILPD8a.dimmingInProgress = false;  // Stop the rainbow cycle
+        engine.cancelTimer(AKAILPD8a.updateRainbowCycle);  // Stop the timer
     }
 };
 
 // Function to stop the rainbow effect when playback is paused and reset the lights
-AKAILPD8b.stopRainbowScan = function() {
-    engine.stopTimer(AKAILPD8b.timers["rainbowScan"]);
-    AKAILPD8b.dimmingStep = 0;
-    AKAILPD8b.dimmingInProgress = false;  // Reset rainbow cycle state
-    AKAILPD8b.setLights(currentLightColors, true);  // Reset to white color
+AKAILPD8a.stopRainbowScan = function() {
+    engine.stopTimer(AKAILPD8a.timers["rainbowScan"]);
+    AKAILPD8a.dimmingStep = 0;
+    AKAILPD8a.dimmingInProgress = false;  // Reset rainbow cycle state
+    AKAILPD8a.setLights(currentLightColors, true);  // Reset to white color
 };
 
-AKAILPD8b.fadeDuration = 1000;
-AKAILPD8b.chanceofFlicker = 0.2
+AKAILPD8a.fadeDuration = 1000;
+AKAILPD8a.chanceofFlicker = 0.2
 
-AKAILPD8b.rainbowBurst = function(duration = AKAILPD8b.fadeDuration, fadeSteps = 30) {
+AKAILPD8a.rainbowBurst = function(duration = AKAILPD8a.fadeDuration, fadeSteps = 30) {
     const rainbowColors = [
-        AKAILPD8b.colors.red,
-        AKAILPD8b.colors.orange,
-        AKAILPD8b.colors.yellow,
-        AKAILPD8b.colors.green,
-        AKAILPD8b.colors.lightblue,
-        AKAILPD8b.colors.blue,
-        AKAILPD8b.colors.purple
+        AKAILPD8a.colors.red,
+        AKAILPD8a.colors.orange,
+        AKAILPD8a.colors.yellow,
+        AKAILPD8a.colors.green,
+        AKAILPD8a.colors.lightblue,
+        AKAILPD8a.colors.blue,
+        AKAILPD8a.colors.purple
     ];
 
     const evenIndices = Array.from({ length: 8 }, (_, i) => i * 2);
@@ -433,7 +433,7 @@ AKAILPD8b.rainbowBurst = function(duration = AKAILPD8b.fadeDuration, fadeSteps =
     }));
 
     // Decide if we should flicker (50% chance)
-    const shouldFlicker = Math.random() < AKAILPD8b.chanceofFlicker;
+    const shouldFlicker = Math.random() < AKAILPD8a.chanceofFlicker;
 
     if (shouldFlicker) {
         // FLICKER + FADE
@@ -449,10 +449,10 @@ AKAILPD8b.rainbowBurst = function(duration = AKAILPD8b.fadeDuration, fadeSteps =
                 // Toggle between color and black
                 flickerArray[padIndex] = (flickerStep % 2 === 0)
                     ? burstColor
-                    : AKAILPD8b.colors.black;
+                    : AKAILPD8a.colors.black;
             });
 
-            AKAILPD8b.setLights(flickerArray, true);
+            AKAILPD8a.setLights(flickerArray, true);
 
             if (flickerStep >= flickerCount * 2) {
                 engine.stopTimer(flickerTimer);
@@ -465,7 +465,7 @@ AKAILPD8b.rainbowBurst = function(duration = AKAILPD8b.fadeDuration, fadeSteps =
         burstInfo.forEach(({ padIndex, burstColor }) => {
             burstArray[padIndex] = burstColor;
         });
-        AKAILPD8b.setLights(burstArray, true);
+        AKAILPD8a.setLights(burstArray, true);
         startFade();
     }
 
@@ -480,14 +480,14 @@ AKAILPD8b.rainbowBurst = function(duration = AKAILPD8b.fadeDuration, fadeSteps =
 
             burstInfo.forEach(({ padIndex, burstColor, originalColor }) => {
                 const fadeFactor = step / fadeSteps;
-                fadedArray[padIndex] = AKAILPD8b.interpolateColor(
+                fadedArray[padIndex] = AKAILPD8a.interpolateColor(
                     burstColor,
                     originalColor,
                     fadeFactor
                 );
             });
 
-            AKAILPD8b.setLights(fadedArray, true);
+            AKAILPD8a.setLights(fadedArray, true);
 
             if (step >= fadeSteps) {
                 engine.stopTimer(fadeTimer);
@@ -496,15 +496,15 @@ AKAILPD8b.rainbowBurst = function(duration = AKAILPD8b.fadeDuration, fadeSteps =
     }
 };
 
-AKAILPD8b.startRainbowBurstLoop = function(duration = AKAILPD8b.fadeDuration) {
+AKAILPD8a.startRainbowBurstLoop = function(duration = AKAILPD8a.fadeDuration) {
     const minDelay = 0.5 * duration;
     const maxDelay = 5 * duration;
 
     const scheduleNextBurst = () => {
         const nextDelay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
 
-        AKAILPD8b.timers["rainbowBurstLoop"] = engine.beginTimer(nextDelay, () => {
-            AKAILPD8b.rainbowBurst(AKAILPD8b.fadeDuration);
+        AKAILPD8a.timers["rainbowBurstLoop"] = engine.beginTimer(nextDelay, () => {
+            AKAILPD8a.rainbowBurst(AKAILPD8a.fadeDuration);
             scheduleNextBurst(); // schedule the next one recursively
         }, true);
     };
@@ -516,24 +516,24 @@ AKAILPD8b.startRainbowBurstLoop = function(duration = AKAILPD8b.fadeDuration) {
 //HELPERS
 //
 
-AKAILPD8b.initPadLights = function(status){
-    const lights = AKAILPD8b.defaultLights
-    AKAILPD8b.setLights([lights.pad1.Static, lights.pad1.Pushed, lights.pad2.Static, lights.pad2.Pushed, lights.pad3.Static, lights.pad3.Pushed, lights.pad4.Static, lights.pad4.Pushed, lights.pad5.Static, lights.pad5.Pushed, lights.pad6.Static, lights.pad6.Pushed, lights.pad7.Static, lights.pad7.Pushed, lights.pad8.Static, lights.pad8.Pushed]);
-    AKAILPD8b.startRainbowScan();
-    engine.beginTimer(AKAILPD8b.scanDuration, AKAILPD8b.startRainbowBurstLoop, true);
+AKAILPD8a.initPadLights = function(status){
+    const lights = AKAILPD8a.defaultLights
+    AKAILPD8a.setLights([lights.pad1.Static, lights.pad1.Pushed, lights.pad2.Static, lights.pad2.Pushed, lights.pad3.Static, lights.pad3.Pushed, lights.pad4.Static, lights.pad4.Pushed, lights.pad5.Static, lights.pad5.Pushed, lights.pad6.Static, lights.pad6.Pushed, lights.pad7.Static, lights.pad7.Pushed, lights.pad8.Static, lights.pad8.Pushed]);
+    AKAILPD8a.startRainbowScan();
+    engine.beginTimer(AKAILPD8a.scanDuration, AKAILPD8a.startRainbowBurstLoop, true);
 }
 
 //
 // Helper: interpolate between two 6-channel color arrays
 //
 
-AKAILPD8b.interpolateColor = function(color1, color2, factor) {
+AKAILPD8a.interpolateColor = function(color1, color2, factor) {
     return color1.map((val, i) =>
         Math.round(val + (color2[i] - val) * factor)
     );
 };
 
-AKAILPD8b.setLights = function(lightColors, temp = false) {
+AKAILPD8a.setLights = function(lightColors, temp = false) {
     if (lightColors.length === 2) { lightColors = Array.from({ length: 16 }, (_, i) => lightColors[i % 2]); }
 
     if (!temp) { currentLightColors = lightColors.map(color => [...color]); }
@@ -542,7 +542,7 @@ AKAILPD8b.setLights = function(lightColors, temp = false) {
     //Check to see if any lights are supposed to be off
     for (i = 0; i < lightsOff.length; i++) {
         if (lightsOff[i]) {
-            lightColors[i] = AKAILPD8b.colors.black;
+            lightColors[i] = AKAILPD8a.colors.black;
         }
     }
 
@@ -567,7 +567,7 @@ AKAILPD8b.setLights = function(lightColors, temp = false) {
 };
 
 // Function to change the color of a specific pad to any given color
-AKAILPD8b.changePadColor = function(padIndex, color, pushed = false, temp = false) {
+AKAILPD8a.changePadColor = function(padIndex, color, pushed = false, temp = false) {
     // Validate the pad index to make sure it's within bounds
     if (padIndex < 1 || padIndex >= 8) {
         console.error("Invalid pad index. Must be between 1 and 8");
@@ -583,11 +583,11 @@ AKAILPD8b.changePadColor = function(padIndex, color, pushed = false, temp = fals
     updatedColors[padIndex] = color;
 
     // Update the lights with the new color
-    AKAILPD8b.setLights(updatedColors, temp);
+    AKAILPD8a.setLights(updatedColors, temp);
 };
 
 
-AKAILPD8b.togglePadLight = function (padNum, pushed, off) { 
+AKAILPD8a.togglePadLight = function (padNum, pushed, off) { 
     var index = -1; 
     if (pushed) { 
         index = (padNum - 1) * 2 + 1;
@@ -596,83 +596,78 @@ AKAILPD8b.togglePadLight = function (padNum, pushed, off) {
     }
     lightsOff[index] = off ? true : false;
     console.log(lightsOff);
-    AKAILPD8b.setLights(currentLightColors);
+    AKAILPD8a.setLights(currentLightColors);
 };
 
-AKAILPD8b.getTrackColor = function () {
+AKAILPD8a.getTrackColor = function () {
     trackColorBinary = engine.getParameter("[Channel" + deckNum + "]", "track_color");
 
     trackColor = ""
-    if (trackColorBinary == "16711935") { trackColor = AKAILPD8b.colors["magenta"]; }
-    else if (trackColorBinary == "16746751") { trackColor = AKAILPD8b.colors["pink"]; }
-    else if (trackColorBinary == "16746496") { trackColor = AKAILPD8b.colors["orange"]; }
-    else if (trackColorBinary == "16776960") { trackColor = AKAILPD8b.colors["yellow"]; }
-    else if (trackColorBinary == "11141375") { trackColor = AKAILPD8b.colors["purple"]; }
-    else if (trackColorBinary == "16711680") { trackColor = AKAILPD8b.colors["red"]; }
-    else if (trackColorBinary == "8912896") { trackColor = AKAILPD8b.colors["darkred"]; }
+    if (trackColorBinary == "16711935") { trackColor = AKAILPD8a.colors["magenta"]; }
+    else if (trackColorBinary == "16746751") { trackColor = AKAILPD8a.colors["pink"]; }
+    else if (trackColorBinary == "16746496") { trackColor = AKAILPD8a.colors["orange"]; }
+    else if (trackColorBinary == "16776960") { trackColor = AKAILPD8a.colors["yellow"]; }
+    else if (trackColorBinary == "11141375") { trackColor = AKAILPD8a.colors["purple"]; }
+    else if (trackColorBinary == "16711680") { trackColor = AKAILPD8a.colors["red"]; }
+    else if (trackColorBinary == "8912896") { trackColor = AKAILPD8a.colors["darkred"]; }
     else {
-        trackColor = AKAILPD8b.colors["darkgrey"];
+        trackColor = AKAILPD8a.colors["darkgrey"];
     }
     return trackColor;
 }
 
 //
-// Init 
+// INIT
 //
 
-AKAILPD8b.init = function() {
-    AKAILPD8b.initPadLights();
+AKAILPD8a.init = function() {
+    //AKAILPD8a.initPadLights();
 
     //Make connections for the stem mute and stem fx enable lights
     for (let i = 1; i <= 4; i++) {
-        engine.makeConnection("[Channel" + deckNum + "_Stem" + i + "]", "mute", AKAILPD8b.stemMute);
-        engine.makeConnection("[QuickEffectRack1_[Channel" + deckNum + "_Stem" + i + "]]", "enabled", AKAILPD8b.stemFXOff);
+        engine.makeConnection("[Channel" + deckNum + "_Stem" + i + "]", "mute", AKAILPD8a.stemMute);
+        engine.makeConnection("[QuickEffectRack1_[Channel" + deckNum + "_Stem" + i + "]]", "enabled", AKAILPD8a.stemFXOff);
     }
 
-    engine.makeConnection("[Channel" + deckNum + "]", "track_color", AKAILPD8b.trackLoaded);
-    engine.makeConnection("[Channel" + deckNum + "]", "play", AKAILPD8b.trackStarted);
-    if (engine.getValue("[Channel" + deckNum + "]", "track_color")) { AKAILPD8b.trackLoaded(); }
-    if (engine.getValue("[Channel" + deckNum + "]", "play")) { AKAILPD8b.trackStarted(); }
+    engine.makeConnection("[Channel" + deckNum + "]", "track_color", AKAILPD8a.trackLoaded);
+    engine.makeConnection("[Channel" + deckNum + "]", "play", AKAILPD8a.trackStarted);
+    if (engine.getValue("[Channel" + deckNum + "]", "track_color")) { AKAILPD8a.trackLoaded(); }
+    if (engine.getValue("[Channel" + deckNum + "]", "play")) { AKAILPD8a.trackStarted(); }
 };
 
-AKAILPD8b.setLightsTrackColor = function() {
-    trackColor = AKAILPD8b.getTrackColor();
+AKAILPD8a.setLightsTrackColor = function() {
+    trackColor = AKAILPD8a.getTrackColor();
     if (trackColor) {
-        lights = [trackColor, AKAILPD8b.colors.white]
-        AKAILPD8b.setLights(lights); 
+        lights = [trackColor, AKAILPD8a.colors.white]
+        AKAILPD8a.setLights(lights); 
     }
     //Need to make sure the track colors are actually set, because demo might bleed into it
-    if (!AKAILPD8b.timers["setLightsTrackColor"]) {AKAILPD8b.timers["setLightsTrackColor"] = engine.beginTimer(1000, AKAILPD8b.setLightsTrackColor, true); }
+    if (!AKAILPD8a.timers["setLightsTrackColor"]) {AKAILPD8a.timers["setLightsTrackColor"] = engine.beginTimer(1000, AKAILPD8a.setLightsTrackColor, true); }
 }
 
-AKAILPD8b.trackLoaded = function() {
-    engine.stopTimer(AKAILPD8b.timers["rainbowBurstLoop"]); //Stop the demos
-    engine.stopTimer(AKAILPD8b.timers["rainbowScan"]);
+AKAILPD8a.trackLoaded = function() {
+    engine.stopTimer(AKAILPD8a.timers["rainbowBurstLoop"]); //Stop the demos
+    engine.stopTimer(AKAILPD8a.timers["rainbowScan"]);
 
     //Make sure all the pad lights are set correctly
-    AKAILPD8b.setLightsTrackColor();
+    AKAILPD8a.setLightsTrackColor();
 
-    AKAILPD8b.timers["stemmute"] = engine.beginTimer(50,AKAILPD8b.stemMute, true); //Need to run this again otherwise we get a race condition as this function will load at the same time as loading the track
-    AKAILPD8b.timers["stemfxoff"] = engine.beginTimer(50,AKAILPD8b.stemFXOff, true); //Need to run this again otherwise we get a race condition as this function will load at the same time as loading the track
+    AKAILPD8a.timers["stemmute"] = engine.beginTimer(50,AKAILPD8a.stemMute, true); //Need to run this again otherwise we get a race condition as this function will load at the same time as loading the track
+    AKAILPD8a.timers["stemfxoff"] = engine.beginTimer(50,AKAILPD8a.stemFXOff, true); //Need to run this again otherwise we get a race condition as this function will load at the same time as loading the track
 };
 
-AKAILPD8b.trackStarted = function () {
-    engine.stopTimer(AKAILPD8b.timers["rainbowBurstLoop"]);
-    engine.stopTimer(AKAILPD8b.timers["rainbowScan"]);
-    trackColor = AKAILPD8b.getTrackColor();
+AKAILPD8a.trackStarted = function () {
+    engine.stopTimer(AKAILPD8a.timers["rainbowBurstLoop"]);
+    engine.stopTimer(AKAILPD8a.timers["rainbowScan"]);
+    trackColor = AKAILPD8a.getTrackColor();
     if (trackColor) {
-        lights = [trackColor, AKAILPD8b.colors.white]
-        AKAILPD8b.setLights(lights); 
+        lights = [trackColor, AKAILPD8a.colors.white]
+        AKAILPD8a.setLights(lights); 
     }
-    AKAILPD8b.startSmoothDimming();
+    AKAILPD8a.startSmoothDimming();
 }
 
-AKAILPD8b.Shift = function(_channel, control, value, _status, group) {
-    if (value) { AKAILPD8b.shiftButtonDown[group] = true; }
-    else { AKAILPD8b.shiftButtonDown[group] = false; } 
-};
-
-AKAILPD8b.stemMute = function() { 
+AKAILPD8a.stemMute = function() { 
     for (let i = 1; i <= engine.getParameter("[Channel" + deckNum + "]", "stem_count"); i++) { //Get which stems are muted
         if (engine.getParameter("[Channel" + deckNum + "_Stem" + i + "]", "mute")) {
             index = (i - 1) * 2;
@@ -682,10 +677,10 @@ AKAILPD8b.stemMute = function() {
             lightsOff[index] = false;
         }
     }
-    AKAILPD8b.setLightsTrackColor();
+    AKAILPD8a.setLightsTrackColor();
 };
 
-AKAILPD8b.stemFXOff = function() {
+AKAILPD8a.stemFXOff = function() {
     for (let i = 1; i <= engine.getParameter("[Channel" + deckNum + "]", "stem_count"); i++) { //Get which stems are muted
         if (engine.getParameter("[QuickEffectRack1_[Channel" + deckNum + "_Stem" + i + "]]", "enabled")) {
             index = (i - 1) * 2 + 8;
@@ -695,23 +690,33 @@ AKAILPD8b.stemFXOff = function() {
             lightsOff[index] = true;
         }
     }
-    AKAILPD8b.setLightsTrackColor();
+    AKAILPD8a.setLightsTrackColor();
 };
 
-AKAILPD8b.StemVolume = function(_channel, _control, value, _status, group) { 
+AKAILPD8a.changeStemFXChain = function(_channel, control, _value, _status, _group) {
+    if (control <= 3) { 
+        console.log("Setting prev_chain_preset for stem " + (control + 1));
+        engine.setValue("[QuickEffectRack1_[Channel" + deckNum + "_Stem" + (control + 1) +"]]", "prev_chain_preset", 1);
+    } else if (control <= 7 && control >= 4) {
+        console.log("Setting next_chain_preset for stem " + ((control - 4) + 1));
+        engine.setValue("[QuickEffectRack1_[Channel" + deckNum + "_Stem" + ((control - 4) + 1) +"]]", "next_chain_preset", 1);
+    }
+};
+
+AKAILPD8a.StemVolume = function(_channel, control, value, _status, group) { 
     engine.setParameter(group, "volume", value / 127)
 };
 
-AKAILPD8b.StemFXAmount = function(_channel, _control, value, _status, group) {
+AKAILPD8a.StemFXAmount = function(_channel, _control, value, _status, group) {
     engine.setParameter(group, "super1", value / 127)
 }
 
 //
-// Shutdown
+// SHUTDOWN
 //
 
-AKAILPD8b.shutdown = function() {
-    AKAILPD8b.setLights([AKAILPD8b.colors.black, AKAILPD8b.colors.black]);
+AKAILPD8a.shutdown = function() {
+    AKAILPD8a.setLights([AKAILPD8a.colors.black, AKAILPD8a.colors.black]);
     // stop the keepalive timer
-    engine.stopTimer(AKAILPD8b.keepAliveTimer);
+    engine.stopTimer(AKAILPD8a.keepAliveTimer);
 };

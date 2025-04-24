@@ -12,6 +12,7 @@
             <file functionprefix="AKAILPD8b" filename="AKAI-LPD8-b-script.js"/>
         </scriptfiles>
         <controls>
+            <!-- ROTARY CONTROLS -->
 	        <control>
                 <description>Rotary 1</description>
                 <group>[Channel2_Stem1]</group>
@@ -92,8 +93,8 @@
                   <Script-Binding/>
                 </options>
             </control>
-
-            <!-- STEMS TRACK 2 -->
+            <!-- STEMS TRACK 1 -->
+            <!-- MUTE STEMS-->
             <control>
                 <description>Pad 1</description>
                 <group>[Channel2_Stem1]</group>
@@ -105,7 +106,7 @@
                 </options>
             </control>
             <control>
-                <description>Pad 2</description>
+                <description>Pad 3</description>
                 <group>[Channel2_Stem2]</group>
                 <key>mute</key>
                 <status>0x90</status>
@@ -115,7 +116,7 @@
                 </options>
             </control>
             <control>
-                <description>Pad 3</description>
+                <description>Pad 5</description>
                 <group>[Channel2_Stem3]</group>
                 <key>mute</key>
                 <status>0x90</status>
@@ -125,7 +126,7 @@
                 </options>
             </control>
             <control>
-                <description>Pad 4</description>
+                <description>Pad 7</description>
                 <group>[Channel2_Stem4]</group>
                 <key>mute</key>
                 <status>0x90</status>
@@ -134,8 +135,9 @@
                     <normal/>
                 </options>
             </control>
+            <!-- ENABLED EFFECTS -->
             <control>
-                <description>Pad 5</description>
+                <description>Pad 2</description>
                 <group>[QuickEffectRack1_[Channel2_Stem1]]</group>
                 <key>enabled</key>
                 <status>0x90</status>
@@ -145,7 +147,7 @@
                 </options>
             </control>
             <control>
-                <description>Pad 6</description>
+                <description>Pad 4</description>
                 <group>[QuickEffectRack1_[Channel2_Stem2]]</group>
                 <key>enabled</key>
                 <status>0x90</status>
@@ -155,7 +157,7 @@
                 </options>
             </control>
             <control>
-                <description>Pad 7</description>
+                <description>Pad 6</description>
                 <group>[QuickEffectRack1_[Channel2_Stem3]]</group>
                 <key>enabled</key>
                 <status>0x90</status>
@@ -174,27 +176,16 @@
                     <normal/>
                 </options>
             </control>
-
-<!--            <control>
-                <description>Shift 1</description>
-                <group>0</group>
-                <key>AKAILPD8b.Shift</key>
-                <status>0xB0</status>
-                <midino>0x68</midino>
+            <!-- CHOOSE STEM FX -->
+            <control>
+                <description>Pads 1-8 PROG Stem FX Change</description>
+                <group>[QuickEffectRack1_[Channel2_Stem1]]</group>
+                <key>AKAILPD8b.changeStemFXChain</key>
+                <status>0xC0</status>
                 <options>
-                  <Script-Binding/>
+                    <Script-Binding/>
                 </options>
             </control>
-            <control>
-                <description>Shift 2</description>
-                <group>1</group>
-                <key>AKAILPD8b.Shift</key>
-                <status>0xB0</status>
-                <midino>0x69</midino>
-                <options>
-                  <Script-Binding/>
-                </options>
-            </control>-->            
         </controls>
     </controller>
 </MixxxMIDIPreset>

@@ -617,7 +617,7 @@ AKAILPD8b.getTrackColor = function () {
 }
 
 //
-// Init 
+// INIT
 //
 
 AKAILPD8b.init = function() {
@@ -698,6 +698,16 @@ AKAILPD8b.stemFXOff = function() {
     AKAILPD8b.setLightsTrackColor();
 };
 
+AKAILPD8b.changeStemFXChain = function(_channel, control, _value, _status, _group) {
+    if (control <= 3) { 
+        console.log("Setting prev_chain_preset for stem " + (control + 1));
+        engine.setValue("[QuickEffectRack1_[Channel" + deckNum + "_Stem" + (control + 1) +"]]", "prev_chain_preset", 1);
+    } else if (control <= 7 && control >= 4) {
+        console.log("Setting next_chain_preset for stem " + ((control - 4) + 1));
+        engine.setValue("[QuickEffectRack1_[Channel" + deckNum + "_Stem" + ((control - 4) + 1) +"]]", "next_chain_preset", 1);
+    }
+};
+
 AKAILPD8b.StemVolume = function(_channel, _control, value, _status, group) { 
     engine.setParameter(group, "volume", value / 127)
 };
@@ -707,7 +717,7 @@ AKAILPD8b.StemFXAmount = function(_channel, _control, value, _status, group) {
 }
 
 //
-// Shutdown
+// SHUTDOWN
 //
 
 AKAILPD8b.shutdown = function() {
