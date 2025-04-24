@@ -24,6 +24,11 @@ AKAILPD8b.timers = {};
 var currentLightColors = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];//var currentLightColors = [pad 1, pad 1 pushed, ..., pad 8, pad 8 pushed] //array of arrays. Each array in the main array is structured [0x01, 0x7F, 0x01, 0x7F, 0x01, 0x7F]. This gives white. They are RRGGBB. Maximum value is 0x01, 0x7F one less is 0x00, 0x7F and minimum is 0x00, 0x00 which would make it black and turn the lights off
 var lightsOff = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //Which lights are turned off
 
+
+//
+// CONSTANTS
+//
+
 AKAILPD8b.colors = {
     red: [0x01, 0x7F, 0x00, 0x00, 0x00, 0x00],
     green: [0x00, 0x00, 0x01, 0x75, 0x00, 0x00],
@@ -104,12 +109,14 @@ AKAILPD8b.dimmingStep = 0;  // Current dimming step
 AKAILPD8b.dimmingStartBeat = 0;  // Beat number when dimming starts
 AKAILPD8b.dimmingInProgress = false;  // Track if dimming is in progress
 AKAILPD8b.dimmingState = false;
+AKAILPD8b.lastBeatPosition = 0; // Track the last beat position
+AKAILPD8b.currentBPM = 0; // Store the current BPM
 
 AKAILPD8b.startSmoothDimming = function() {
     // Get BPM from Mixxx
-    const bpm = engine.getValue("[Channel" + deckNum + "]", "bpm");
+    AKAILPD8b.currentBPM = engine.getValue("[Channel" + deckNum + "]", "bpm");
 
-    if (bpm <= 0) {
+    if (AKAILPD8b.currentBPM <= 0) {
         console.warn("BPM is zero or not valid, cannot start dimming.");
         return;
     }
@@ -121,15 +128,8 @@ AKAILPD8b.startSmoothDimming = function() {
         return;
     }
 
-    // Fetch the current position of the track (normalized from 0.0 to 1.0)
-    const currentPosition = engine.getValue("[Channel" + deckNum + "]", "playposition");
-    if (currentPosition === null || currentPosition === 0.0) {
-        console.warn("Invalid position value, cannot start dimming.");
-        return;
-    }
-
     // Calculate the time interval for each dimming step based on BPM
-    const msPerBeat = 60000 / bpm;  // Milliseconds per beat
+    const msPerBeat = 60000 / AKAILPD8b.currentBPM;  // Milliseconds per beat
     const totalDuration = msPerBeat * AKAILPD8b.beatsPerCycle;  // Total duration (for full dimming cycle)
     const msPerStep = totalDuration / AKAILPD8b.totalDimmingSteps;  // Time for each step to complete for full cycle
 
@@ -137,6 +137,7 @@ AKAILPD8b.startSmoothDimming = function() {
     AKAILPD8b.dimmingStep = 0;
     AKAILPD8b.dimmingDirection = 'dim';  // Start with dimming
     AKAILPD8b.dimmingInProgress = true;  // Mark that dimming is in progress
+    AKAILPD8b.lastBeatPosition = engine.getValue("[Channel" + deckNum + "]", "playposition");
 
     // Store the current color brightness (starting at full brightness)
     AKAILPD8b.originalColors = currentLightColors;
@@ -151,6 +152,31 @@ AKAILPD8b.updateSmoothDimming = function() {
         AKAILPD8b.stopSmoothDimming();
         return;
     }
+
+    // Check if BPM has changed
+    const newBPM = engine.getValue("[Channel" + deckNum + "]", "bpm");
+    if (newBPM !== AKAILPD8b.currentBPM) {
+        
+        // Calculate new timing based on new BPM
+        const msPerBeat = 60000 / newBPM;
+        const totalDuration = msPerBeat * AKAILPD8b.beatsPerCycle;
+        const newMsPerStep = totalDuration / AKAILPD8b.totalDimmingSteps;
+        
+        // Stop current timer
+        engine.stopTimer(AKAILPD8b.timers["smoothDimming"]);
+        
+        // Start new timer with adjusted timing
+        AKAILPD8b.timers["smoothDimming"] = engine.beginTimer(newMsPerStep, AKAILPD8b.updateSmoothDimming);
+        
+        AKAILPD8b.currentBPM = newBPM;
+    }
+
+    const currentPosition = engine.getValue("[Channel" + deckNum + "]", "playposition");
+    
+    // Calculate beats passed since last update
+    const beatsPassed = (currentPosition - AKAILPD8b.lastBeatPosition) * AKAILPD8b.currentBPM;
+    AKAILPD8b.lastBeatPosition = currentPosition;
+
     // Calculate the step factor (a value between 0 and 1)
     const stepFactor = AKAILPD8b.dimmingStep / (AKAILPD8b.totalDimmingSteps / 2);
 
@@ -164,8 +190,7 @@ AKAILPD8b.updateSmoothDimming = function() {
 
     // Calculate the new dimmed color based on the target brightness
     const updatedColors = AKAILPD8b.originalColors.map(function(color) {
-        return color.map(function(channelValue, index) {
-            const maxValue = 0x7F;
+        return color.map(function(channelValue) {
             return Math.floor(channelValue * targetBrightness);
         });
     });
@@ -180,15 +205,6 @@ AKAILPD8b.updateSmoothDimming = function() {
     if (AKAILPD8b.dimmingStep >= AKAILPD8b.totalDimmingSteps / 2) {
         AKAILPD8b.dimmingStep = 0; // Reset the step for the next phase
         AKAILPD8b.dimmingDirection = (AKAILPD8b.dimmingDirection === 'dim') ? 'brighten' : 'dim'; // Switch direction
-    }
-
-    // If 4 beats have passed, stop the dimming process
-    const currentPosition = engine.getValue("[Channel" + deckNum + "]", "playposition");
-    const beatProgress = (currentPosition * bpm) % AKAILPD8b.dimmingBeats;  // Track the song's progress in beats
-
-    if (beatProgress === 0 && AKAILPD8b.dimmingDirection === 'dim' && AKAILPD8b.dimmingStep === 0) {
-        AKAILPD8b.dimmingInProgress = false;  // Stop the dimming process
-        engine.cancelTimer(AKAILPD8b.updateSmoothDimming);  // Stop the timer
     }
 };
 
@@ -601,7 +617,7 @@ AKAILPD8b.getTrackColor = function () {
 }
 
 //
-// INIT 
+// Init 
 //
 
 AKAILPD8b.init = function() {
@@ -682,7 +698,7 @@ AKAILPD8b.stemFXOff = function() {
     AKAILPD8b.setLightsTrackColor();
 };
 
-AKAILPD8b.StemVolume = function(_channel, control, value, _status, group) { 
+AKAILPD8b.StemVolume = function(_channel, _control, value, _status, group) { 
     engine.setParameter(group, "volume", value / 127)
 };
 
@@ -691,7 +707,7 @@ AKAILPD8b.StemFXAmount = function(_channel, _control, value, _status, group) {
 }
 
 //
-// SHUTDOWN
+// Shutdown
 //
 
 AKAILPD8b.shutdown = function() {
